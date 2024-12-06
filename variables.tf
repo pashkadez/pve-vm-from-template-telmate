@@ -26,6 +26,10 @@ variable "proxmox_password" {
     sensitive = true
 }
 
+variable "pve_parallel" {
+  type = number
+}
+
 variable "gateway" {
     type = string
 }

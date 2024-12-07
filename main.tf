@@ -29,6 +29,8 @@ resource "proxmox_vm_qemu" "vm" {
           storage = var.storage
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
           size    = each.value.storage_size
+          discard              = true
+          emulatessd           = true
         }
       }
     }

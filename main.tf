@@ -1,19 +1,19 @@
 
 resource "proxmox_vm_qemu" "vm" {
-  for_each   = var.vms_list
-  name       = each.key
+  for_each    = var.vms_list
+  name        = each.key
   target_node = each.value.target_node
-  vmid       = each.value.vmid
-  cores      = each.value.cores
-  memory     = each.value.memory
-  cpu_type   = "x86-64-v2-AES"
-  agent      = 1
-  ipconfig0  = "ip=${each.value.ipaddress},gw=${var.gateway}"
-  onboot     = true
+  vmid        = each.value.vmid
+  cores       = each.value.cores
+  memory      = each.value.memory
+  cpu_type    = "x86-64-v2-AES"
+  agent       = 1
+  ipconfig0   = "ip=${each.value.ipaddress},gw=${var.gateway}"
+  onboot      = true
   clone       = var.template_name
   scsihw      = "virtio-scsi-single"
-  nameserver = var.gateway
-  qemu_os = "l26"
+  nameserver  = var.gateway
+  qemu_os     = "l26"
   lifecycle {
     ignore_changes = [
       # network,
@@ -28,9 +28,9 @@ resource "proxmox_vm_qemu" "vm" {
         disk {
           storage = var.storage
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
-          size    = each.value.storage_size
-          discard              = true
-          emulatessd           = true
+          size       = each.value.storage_size
+          discard    = true
+          emulatessd = true
         }
       }
     }
@@ -45,7 +45,7 @@ resource "proxmox_vm_qemu" "vm" {
   }
 
   network {
-    id    = "0"
+    id     = "0"
     bridge = var.bridge
     model  = "virtio"
   }

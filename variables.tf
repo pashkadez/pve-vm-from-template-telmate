@@ -1,29 +1,29 @@
-variable "template_name"{
+variable "template_name" {
   type = string
 }
 
-variable "storage"{
+variable "storage" {
   type = string
 }
 
-variable "vm_state"{
+variable "vm_state" {
   type = string
 }
 
-variable "vms_list"{
+variable "vms_list" {
 }
 
 variable "proxmox_host" {
-    type = string
+  type = string
 }
 
 variable "proxmox_user" {
-    type = string
+  type = string
 }
 
 variable "proxmox_password" {
-    type = string
-    sensitive = true
+  type      = string
+  sensitive = true
 }
 
 variable "pve_parallel" {
@@ -31,7 +31,7 @@ variable "pve_parallel" {
 }
 
 variable "gateway" {
-    type = string
+  type = string
 }
 
 variable "PVE_TLS_INSECURE" {
@@ -41,5 +41,5 @@ variable "PVE_TLS_INSECURE" {
 }
 
 variable "bridge" {
-    type = string
+  type = string
 }

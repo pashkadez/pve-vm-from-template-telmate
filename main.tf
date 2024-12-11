@@ -8,12 +8,17 @@ resource "proxmox_vm_qemu" "vm" {
   memory      = each.value.memory
   cpu_type    = "x86-64-v2-AES"
   agent       = 1
+  ciupgrade   = true
+  tags        = var.tags
   ipconfig0   = "ip=${each.value.ipaddress},gw=${var.gateway}"
   onboot      = true
   clone       = var.template_name
   scsihw      = "virtio-scsi-single"
   nameserver  = var.gateway
   qemu_os     = "l26"
+  ciuser      = var.ciuser
+  cipassword  = var.cipassword
+  sshkeys     = var.sshkeys
   lifecycle {
     ignore_changes = [
       # network,
@@ -55,7 +60,7 @@ resource "proxmox_vm_qemu" "vm" {
   }
 }
 
-output "vm_ids" {
-  description = "IDs of the created VMs"
-  value       = { for k, v in proxmox_vm_qemu.vm : k => v.id }
+output "vm_network_details" {
+  description = "network details of the VMs created by module"
+  value       = { for k, v in proxmox_vm_qemu.vm : k => [v.ssh_host, v.network[0].macaddr] }
 }

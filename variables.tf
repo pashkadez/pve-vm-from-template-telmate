@@ -43,3 +43,19 @@ variable "PVE_TLS_INSECURE" {
 variable "bridge" {
   type = string
 }
+
+variable "sshkeys" {
+  type = string
+}
+
+variable "ciuser" {
+  type = string
+}
+
+variable "cipassword" {
+  type = string
+}
+
+variable "tags" {
+
+}

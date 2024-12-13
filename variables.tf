@@ -1,16 +1,7 @@
-variable "template_name" {
-  type = string
-}
-
-variable "storage" {
-  type = string
-}
-
-variable "vm_state" {
-  type = string
-}
-
 variable "vms_list" {
+}
+
+variable "common_vars" {
 }
 
 variable "proxmox_host" {
@@ -26,36 +17,12 @@ variable "proxmox_password" {
   sensitive = true
 }
 
-variable "pve_parallel" {
-  type = number
-}
-
-variable "gateway" {
-  type = string
-}
-
 variable "PVE_TLS_INSECURE" {
   description = "Allow insecure TLS connections"
   type        = bool
   default     = false
 }
 
-variable "bridge" {
-  type = string
-}
-
-variable "sshkeys" {
-  type = string
-}
-
-variable "ciuser" {
-  type = string
-}
-
 variable "cipassword" {
   type = string
-}
-
-variable "tags" {
-
 }

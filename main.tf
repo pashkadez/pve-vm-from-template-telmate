@@ -9,16 +9,18 @@ resource "proxmox_vm_qemu" "vm" {
   cpu_type    = "x86-64-v2-AES"
   agent       = 1
   ciupgrade   = true
-  tags        = var.tags
-  ipconfig0   = "ip=${each.value.ipaddress},gw=${var.gateway}"
+  tags        = each.value.tags
+  ipconfig0   = "ip=${each.value.ipaddress},gw=${var.common_vars.gateway}"
   onboot      = true
-  clone       = var.template_name
+  clone       = var.common_vars.template_name
   scsihw      = "virtio-scsi-single"
-  nameserver  = var.gateway
+  nameserver  = var.common_vars.gateway
   qemu_os     = "l26"
-  ciuser      = var.ciuser
+  ciuser      = var.common_vars.ciuser
   cipassword  = var.cipassword
-  sshkeys     = var.sshkeys
+  sshkeys     = var.common_vars.sshkeys
+  hagroup     = each.value.hagroup
+  hastate     = each.value.hastate
   lifecycle {
     ignore_changes = [
       # network,
@@ -31,7 +33,7 @@ resource "proxmox_vm_qemu" "vm" {
       scsi0 {
         # We have to specify the disk from our template, else Terraform will think it's not supposed to be there
         disk {
-          storage = var.storage
+          storage = var.common_vars.storage
           # The size of the disk should be at least as big as the disk in the template. If it's smaller, the disk will be recreated
           size       = each.value.storage_size
           discard    = true
@@ -43,7 +45,7 @@ resource "proxmox_vm_qemu" "vm" {
       # Some images require a cloud-init disk on the IDE controller, others on the SCSI or SATA controller
       ide1 {
         cloudinit {
-          storage = var.storage
+          storage = var.common_vars.storage
         }
       }
     }
@@ -51,7 +53,7 @@ resource "proxmox_vm_qemu" "vm" {
 
   network {
     id     = "0"
-    bridge = var.bridge
+    bridge = var.common_vars.bridge
     model  = "virtio"
   }
 
